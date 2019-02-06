@@ -31,12 +31,12 @@ func Dakoku(val Type, userToken string, token string) (string, error) {
 
 	resp, err := client.Do(request)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	return string(body), nil
 }
