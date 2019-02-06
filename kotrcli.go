@@ -2,9 +2,11 @@ package kotrcli
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"os"
 	"time"
 )
 
@@ -15,8 +17,7 @@ const (
 	TAIKIN
 )
 
-func Dakoku(val Type, userToken string, token string) (string, error) {
-
+func Dakoku(val Type, userToken string, token string) error {
 	client := &http.Client{}
 	t := time.Now()
 	uniqueTimestamp := t.Format("20060102150405")
@@ -31,7 +32,7 @@ func Dakoku(val Type, userToken string, token string) (string, error) {
 	param.Add("token", token)
 	request, err := http.NewRequest("POST", "https://s2.kingtime.jp/gateway/bprgateway", bytes.NewBufferString(param.Encode()))
 	if err != nil {
-		return "", err
+		return err
 	}
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
 	request.Header.Add("Accept", "application/json, text/javascript, */*; q=0.01")
@@ -40,14 +41,25 @@ func Dakoku(val Type, userToken string, token string) (string, error) {
 
 	resp, err := client.Do(request)
 	if err != nil {
-		return "", err
+		return err
 	}
 	defer resp.Body.Close()
+	if resp.StatusCode < 400 {
+		switch val {
+		case SYUKKIN:
+			fmt.Println("Let's enjoy at work")
+		case TAIKIN:
+			fmt.Println("See you next time")
+		default:
+			fmt.Println("fmm... what's happen?")
+		}
+	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return "", err
+		return err
 	}
-	return string(body), nil
+	fmt.Fprintln(os.Stderr, string(body))
+	return nil
 }
 
 func getTypeValue(val Type) string {
