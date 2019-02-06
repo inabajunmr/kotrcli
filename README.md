@@ -10,9 +10,9 @@ import (
 )
 
 func main() {
-	token := "YOURTOKEN"
+  token := "YOURTOKEN"
   userToke := "YOURUSERTOKEN"
-	result := kotrcli.Dakoku(kotrcli.SYUKKIN, token, userToken)
+  result := kotrcli.Dakoku(kotrcli.SYUKKIN, token, userToken)
   fmt.Println(result)
 }
 ```
