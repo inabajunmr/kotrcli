@@ -1,4 +1,4 @@
-package main
+package kotrcli
 
 import (
 	"bytes"
@@ -9,12 +9,19 @@ import (
 	"time"
 )
 
-func Dakoku(id string, userToken string, token string) {
+type Type int
+
+const (
+	SYUKKIN Type = iota
+	TAIKIN
+)
+
+func Dakoku(val Type, userToken string, token string) string {
 
 	client := &http.Client{}
 	t := time.Now()
 	unique_timestamp := t.Format("20060102150405")
-	param := fmt.Sprintf("id=%v&highAccuracyFlg=false&credential_code=40&user_token=%v&comment=&unique_timestamp=%v&version=1.2.7&token=%v", id, userToken, unique_timestamp, token)
+	param := fmt.Sprintf("id=%v&highAccuracyFlg=false&credential_code=40&user_token=%v&comment=&unique_timestamp=%v&version=1.2.7&token=%v", getTypeValue(val), userToken, unique_timestamp, token)
 	buffer := bytes.NewBufferString(param)
 
 	request, err := http.NewRequest("POST", "https://s2.kingtime.jp/gateway/bprgateway", buffer)
@@ -32,16 +39,16 @@ func Dakoku(id string, userToken string, token string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Print(string(body))
+	return string(body)
 }
 
-func main() {
-
-	// syukkin := "qmXXCxw9WEWN3X/YrkMWuQ=="
-	taikin := "j8ekmJaw6W3M4w3i6hlSIQ=="
-	// userToken := ""
-	// token := ""
-
-	Dakoku(taikin, userToken, token)
+func getTypeValue(val Type) string {
+	switch val {
+	case SYUKKIN:
+		return "qmXXCxw9WEWN3X/YrkMWuQ=="
+	case TAIKIN:
+		return "j8ekmJaw6W3M4w3i6hlSIQ=="
+	}
+	return ""
 }
 
