@@ -1,4 +1,10 @@
 # kotrcli
+
+
+[![GoDoc](https://godoc.org/github.com/inabajunmr/kotrcli/github?status.svg)](https://godoc.org/github.com/inabajunmr/kotrcli)
+
+
+
 kotr is api client for KING OF TIME My Recorder.
 
 # install
