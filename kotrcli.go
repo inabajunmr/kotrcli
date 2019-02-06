@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"time"
 )
@@ -16,7 +15,7 @@ const (
 	TAIKIN
 )
 
-func Dakoku(val Type, userToken string, token string) string {
+func Dakoku(val Type, userToken string, token string) (string, error) {
 
 	client := &http.Client{}
 	t := time.Now()
@@ -32,14 +31,14 @@ func Dakoku(val Type, userToken string, token string) string {
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
-	return string(body)
+	return string(body), nil
 }
 
 func getTypeValue(val Type) string {
@@ -51,3 +50,4 @@ func getTypeValue(val Type) string {
 	}
 	return ""
 }
+
