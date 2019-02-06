@@ -12,7 +12,7 @@ import (
 
 func main() {
   token := "YOURTOKEN"
-  userToke := "YOURUSERTOKEN"
+  userToken := "YOURUSERTOKEN"
   result := kotrcli.Dakoku(kotrcli.SYUKKIN, token, userToken)
   fmt.Println(result)
 }
