@@ -50,4 +50,3 @@ func getTypeValue(val Type) string {
 	}
 	return ""
 }
-
