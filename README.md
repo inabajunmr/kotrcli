@@ -1,6 +1,7 @@
 # kotrcli
-kotr is api client for kotr.
+kotr is api client for KING OF TIME My Recorder.
 
+# Usage
 ```go
 package main
 
