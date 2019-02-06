@@ -19,11 +19,15 @@ func Dakoku(val Type, userToken string, token string) (string, error) {
 
 	client := &http.Client{}
 	t := time.Now()
-	unique_timestamp := t.Format("20060102150405")
-	param := fmt.Sprintf("id=%v&highAccuracyFlg=false&credential_code=40&user_token=%v&comment=&unique_timestamp=%v&version=1.2.7&token=%v", getTypeValue(val), userToken, unique_timestamp, token)
+	uniqueTimestamp := t.Format("20060102150405")
+	param := fmt.Sprintf("id=%v&highAccuracyFlg=false&credential_code=40&user_token=%v&comment=&unique_timestamp=%v&version=1.2.7&token=%v", getTypeValue(val), userToken, uniqueTimestamp, token)
 	buffer := bytes.NewBufferString(param)
 
 	request, err := http.NewRequest("POST", "https://s2.kingtime.jp/gateway/bprgateway", buffer)
+	if err != nil {
+		return "", err
+	}
+
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
 	request.Header.Add("Accept", "application/json, text/javascript, */*; q=0.01")
 	request.Header.Add("X-Requested-With", "XMLHttpRequest")
@@ -50,4 +54,3 @@ func getTypeValue(val Type) string {
 	}
 	return ""
 }
-
