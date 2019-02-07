@@ -1,9 +1,12 @@
-package kotrcli
+package main
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
+
+	"github.com/inabajunmr/kotrcli"
 
 	homedir "github.com/mitchellh/go-homedir"
 	ini "gopkg.in/ini.v1"
@@ -24,10 +27,10 @@ func getTokens() (string, string, error) {
 		return "", "", err
 	}
 	if !sec.HasKey("user_token") {
-		return "", "", errors.New("please define `user_token`")
+		return "", "", errors.New("Please define `user_token`")
 	}
 	if !sec.HasKey("token") {
-		return "", "", errors.New("please define `user_token`")
+		return "", "", errors.New("Please define `user_token`")
 	}
 	userToken, _ := sec.GetKey("user_token")
 	token, _ := sec.GetKey("token")
@@ -50,7 +53,7 @@ func initApp() (*cli.App, error) {
 			Usage:       "syukkin",
 			Description: "syukkin",
 			Action: func(c *cli.Context) error {
-				return Dakoku(SYUKKIN, userToken, token)
+				return kotrcli.Dakoku(kotrcli.SYUKKIN, userToken, token)
 			},
 		},
 		{
@@ -59,7 +62,7 @@ func initApp() (*cli.App, error) {
 			Usage:       "taikin",
 			Description: "taikin",
 			Action: func(c *cli.Context) error {
-				return Dakoku(TAIKIN, userToken, token)
+				return kotrcli.Dakoku(kotrcli.TAIKIN, userToken, token)
 			},
 		},
 	}
@@ -69,10 +72,12 @@ func initApp() (*cli.App, error) {
 func mainInternal() int {
 	app, err := initApp()
 	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
 		return 1
 	}
 	err = app.Run(os.Args)
 	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
 		return 1
 	}
 	return 0
