@@ -23,3 +23,7 @@ token = xxxxxx
 $ kotrli syukkin
 $ kotrli taikin
 ```
+
+# Caution
+This tool doesn't use official API.
+If official behavior changed, this will doesn't work so you must confirm result of syukkin/taikin.
