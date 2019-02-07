@@ -2,9 +2,12 @@ package kotrcli
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"time"
 )
 
@@ -15,19 +18,23 @@ const (
 	TAIKIN
 )
 
-func Dakoku(val Type, userToken string, token string) (string, error) {
-
+func Dakoku(writer io.Writer, val Type, userToken string, token string) error {
 	client := &http.Client{}
 	t := time.Now()
 	uniqueTimestamp := t.Format("20060102150405")
-	param := fmt.Sprintf("id=%v&highAccuracyFlg=false&credential_code=40&user_token=%v&comment=&unique_timestamp=%v&version=1.2.7&token=%v", getTypeValue(val), userToken, uniqueTimestamp, token)
-	buffer := bytes.NewBufferString(param)
-
-	request, err := http.NewRequest("POST", "https://s2.kingtime.jp/gateway/bprgateway", buffer)
+	param := url.Values{}
+	param.Add("id", getTypeValue(val))
+	param.Add("highAccuracyFlg", "false")
+	param.Add("credential_code", "40")
+	param.Add("user_token", userToken)
+	param.Add("unique_timestamp", uniqueTimestamp)
+	param.Add("comment", "")
+	param.Add("version", "1.2.7")
+	param.Add("token", token)
+	request, err := http.NewRequest("POST", "https://s2.kingtime.jp/gateway/bprgateway", bytes.NewBufferString(param.Encode()))
 	if err != nil {
-		return "", err
+		return err
 	}
-
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
 	request.Header.Add("Accept", "application/json, text/javascript, */*; q=0.01")
 	request.Header.Add("X-Requested-With", "XMLHttpRequest")
@@ -35,14 +42,18 @@ func Dakoku(val Type, userToken string, token string) (string, error) {
 
 	resp, err := client.Do(request)
 	if err != nil {
-		return "", err
+		return err
 	}
 	defer resp.Body.Close()
+	if resp.StatusCode >= 400 {
+		return errors.New("reponse is not successful")
+	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return "", err
+		return err
 	}
-	return string(body), nil
+	fmt.Fprintln(writer, string(body))
+	return nil
 }
 
 func getTypeValue(val Type) string {
