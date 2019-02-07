@@ -4,12 +4,12 @@
 
 kotrcli is api client for KING OF TIME My Recorder.
 
-# Install
+## Install
 ```
 go get github.com/inabajunmr/kotrcli
 ```
 
-# Config
+## Config
 You need `~/.kot/config/config` and put data as follow format. You need get token from Web UI.
 
 ```
@@ -18,12 +18,12 @@ user_token = xxxxxx
 token = xxxxxx
 ```
 
-# Usage
+## Usage
 ```
 $ kotrli syukkin
 $ kotrli taikin
 ```
 
-# Caution
+## Caution
 This tool doesn't use official API.
 If official behavior changed, this will doesn't work so you must confirm result of syukkin/taikin.
