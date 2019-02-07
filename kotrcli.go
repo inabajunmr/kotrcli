@@ -2,11 +2,12 @@ package kotrcli
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"os"
 	"time"
 )
 
@@ -17,7 +18,7 @@ const (
 	TAIKIN
 )
 
-func Dakoku(val Type, userToken string, token string) error {
+func Dakoku(writer io.Writer, val Type, userToken string, token string) error {
 	client := &http.Client{}
 	t := time.Now()
 	uniqueTimestamp := t.Format("20060102150405")
@@ -44,21 +45,14 @@ func Dakoku(val Type, userToken string, token string) error {
 		return err
 	}
 	defer resp.Body.Close()
-	if resp.StatusCode < 400 {
-		switch val {
-		case SYUKKIN:
-			fmt.Println("Let's enjoy at work")
-		case TAIKIN:
-			fmt.Println("See you next time")
-		default:
-			fmt.Println("fmm... what's happen?")
-		}
+	if resp.StatusCode >= 400 {
+		return errors.New("reponse is not successful")
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return err
 	}
-	fmt.Fprintln(os.Stderr, string(body))
+	fmt.Fprintln(writer, string(body))
 	return nil
 }
 

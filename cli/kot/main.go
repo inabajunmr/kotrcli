@@ -53,7 +53,7 @@ func initApp() (*cli.App, error) {
 			Usage:       "syukkin",
 			Description: "syukkin",
 			Action: func(c *cli.Context) error {
-				return kotrcli.Dakoku(kotrcli.SYUKKIN, userToken, token)
+				return kotrcli.Dakoku(c.App.Writer, kotrcli.SYUKKIN, userToken, token)
 			},
 		},
 		{
@@ -62,7 +62,7 @@ func initApp() (*cli.App, error) {
 			Usage:       "taikin",
 			Description: "taikin",
 			Action: func(c *cli.Context) error {
-				return kotrcli.Dakoku(kotrcli.TAIKIN, userToken, token)
+				return kotrcli.Dakoku(c.App.Writer, kotrcli.TAIKIN, userToken, token)
 			},
 		},
 	}
