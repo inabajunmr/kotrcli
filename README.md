@@ -4,24 +4,22 @@
 
 kotrcli is api client for KING OF TIME My Recorder.
 
-# install
+# Install
 ```
 go get github.com/inabajunmr/kotrcli
 ```
 
-# Usage
-```go
-ackage main
-  
-import (
-        "fmt"
-        "github.com/inabajunmr/kotrcli"
-)
+# Config
+You need `~/.kot/config/config` and put data as follow format. You need get token from Web UI.
 
-func main() {
-  token := "YOURTOKEN"
-  userToken := "YOURUSERTOKEN"
-  result, _ := kotrcli.Dakoku(kotrcli.SYUKKIN, token, userToken)
-  fmt.Println(result)
-}
+```
+[default]
+user_token = xxxxxx
+token = xxxxxx
+```
+
+# Usage
+```
+$ kotrli syukkin
+$ kotrli taikin
 ```
