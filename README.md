@@ -6,7 +6,7 @@ kotrcli is api client for KING OF TIME My Recorder.
 
 ## Install
 ```
-go get github.com/inabajunmr/kotrcli
+go get github.com/inabajunmr/kotrcli/cli/kot
 ```
 
 ## Config
@@ -20,8 +20,8 @@ token = xxxxxx
 
 ## Usage
 ```
-$ kotrli syukkin
-$ kotrli taikin
+$ kot syukkin
+$ kot taikin
 ```
 
 ## Caution
