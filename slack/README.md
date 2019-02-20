@@ -1,4 +1,4 @@
-# slack
+# Slack Slash Commands
 
 ## Requirements
 
