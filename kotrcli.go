@@ -16,6 +16,8 @@ type Type int
 const (
 	SYUKKIN Type = iota
 	TAIKIN
+	KYUKEI_START
+	KYUKEI_END
 )
 
 func Dakoku(writer io.Writer, val Type, userToken string, token string) error {
@@ -62,6 +64,10 @@ func getTypeValue(val Type) string {
 		return "qmXXCxw9WEWN3X/YrkMWuQ=="
 	case TAIKIN:
 		return "j8ekmJaw6W3M4w3i6hlSIQ=="
+	case KYUKEI_START:
+		return "tgI75YcXVUW7d/VjiooYtA=="
+	case KYUKEI_END:
+		return "1HnBUiZe8JiePXoZZkorfw=="
 	}
 	return ""
 }

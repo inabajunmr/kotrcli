@@ -65,7 +65,24 @@ func initApp() (*cli.App, error) {
 				return kotrcli.Dakoku(c.App.Writer, kotrcli.TAIKIN, userToken, token)
 			},
 		},
-	}
+		{
+			Name:        "kyukeis",
+			Aliases:     []string{"ks"},
+			Usage:       "kyukei start",
+			Description: "kyukei start",
+			Action: func(c *cli.Context) error {
+				return kotrcli.Dakoku(c.App.Writer, kotrcli.KYUKEI_START, userToken, token)
+			},
+		},
+		{
+			Name:        "kyukeie",
+			Aliases:     []string{"ke"},
+			Usage:       "kyukei end",
+			Description: "kyukei end",
+			Action: func(c *cli.Context) error {
+				return kotrcli.Dakoku(c.App.Writer, kotrcli.KYUKEI_END, userToken, token)
+			},
+		}}
 	return app, nil
 }
 

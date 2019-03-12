@@ -55,10 +55,15 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 }
 
 func getSyukkinTaikin(kind string) kotrcli.Type {
-	if kind == "syukkin" {
+	switch kind {
+	case "syukkin":
 		return kotrcli.SYUKKIN
-	} else if kind == "taikin" {
+	case "taikin":
 		return kotrcli.TAIKIN
+	case "kyukeis":
+		return kotrcli.KYUKEI_START
+	case "kyukeie":
+		return kotrcli.KYUKEI_END
 	}
 
 	return -1
